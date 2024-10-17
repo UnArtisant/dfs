@@ -1,10 +1,5 @@
-'''
-Jorge Rodrigo Colín Rubio           | A01662960
-Raphaël Marc Joseph Barriet	 	    | A01763686
-Nicole Kapellmann Lepine		    | A01664563
-'''
-
 import re
+
 
 def read_edges_from_file(filename):
     edges = []
@@ -16,29 +11,52 @@ def read_edges_from_file(filename):
             edges.append((u, v))
     return edges
 
+
 def create_graph(edges):
     graph = {}
     for edge in edges:
         u, v = edge
         if u not in graph:
             graph[u] = []
+        if v not in graph:
+            graph[v] = []  # For undirected graph, ensure both nodes are present
         graph[u].append(v)
+        graph[v].append(u)  # Because it's undirected
     return graph
 
 
-def dfs(graph, start, visited=None):
-    if visited is None:
-        visited = set()
-    visited.add(start)
-    print(start, end=" ")
+def print_graph(graph, visited, current_node, stack):
+    print("\nGraph Traversal State:")
+    for node in graph:
+        status = "Visited" if node in visited else "Not Visited"
+        current = " <- Current Node" if node == current_node else ""
+        print(f"Node {node}: {status}{current}")
 
-    for neighbor in graph[start]:
-        if neighbor not in visited:
-            dfs(graph, neighbor, visited)
+    print("\nCurrent Stack:", stack)
+    print("Visited Nodes:", visited)
+    print("-" * 40)
+
+
+def dfs(graph, start):
+    visited = set()
+    stack = [start]
+
+    while stack:
+        current_node = stack.pop()
+
+        if current_node not in visited:
+            visited.add(current_node)
+            print(f"\nVisiting node: {current_node}")
+            print_graph(graph, visited, current_node, stack)
+
+            for neighbor in sorted(graph[current_node], reverse=True):
+                if neighbor not in visited:
+                    stack.append(neighbor)
 
 
 file_path = 'dfs.txt'
-graph = read_edges_from_file(file_path)
+edges = read_edges_from_file(file_path)
+graph = create_graph(edges)
 
 # Perform DFS starting from node 1 (or any other node)
 dfs(graph, 1)
