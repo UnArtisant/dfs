@@ -1,3 +1,8 @@
+'''
+Jorge Rodrigo Colín Rubio           | A01662960
+Raphaël Marc Joseph Barriet	 	    | A01763686
+Nicole Kapellmann Lepine		    | A01664563
+'''
 import re
 
 
