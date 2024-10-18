@@ -38,20 +38,22 @@ def print_graph(graph, visited, current_node, stack):
 
 
 def dfs(graph, start):
-    visited = set()
-    stack = [start]
+    visited = set()  # To track visited nodes
+    stack = [start]  # Stack to hold nodes for traversal
 
     while stack:
         current_node = stack.pop()
 
         if current_node not in visited:
-            visited.add(current_node)
+            visited.add(current_node)  # Mark the node as visited
             print(f"\nVisiting node: {current_node}")
             print_graph(graph, visited, current_node, stack)
 
+            # Add neighbors to the stack if they haven't been visited yet
             for neighbor in sorted(graph[current_node], reverse=True):
-                if neighbor not in visited:
-                    stack.append(neighbor)
+                if neighbor not in visited and neighbor not in stack:
+                    stack.append(neighbor)  # Add unvisited neighbors to the stack
+
 
 
 file_path = 'dfs.txt'
